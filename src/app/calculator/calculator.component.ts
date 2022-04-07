@@ -14,9 +14,14 @@ export class CalculatorComponent implements OnInit {
 
     input: string = "";
     result: string = "";
+    justCalculated: boolean = false;
 
     pressNum(num: string) {
-        this.input += num;
+        if(this.justCalculated)
+            this.input = num;
+        else 
+            this.input += num;
+        this.justCalculated = false;
     }
 
     pressOperator(operator: string) {
@@ -27,6 +32,7 @@ export class CalculatorComponent implements OnInit {
             && lastSymbol !== "*"
             && lastSymbol !== "/"){
                 this.input += operator;
+                this.justCalculated = false;
             }
     }
 
@@ -36,10 +42,22 @@ export class CalculatorComponent implements OnInit {
     }
 
     calculate() {
+        const lastSymbol = this.input[this.input.length -1];
+        if( lastSymbol === "+" 
+            || lastSymbol === "-"
+            || lastSymbol === "*"
+            || lastSymbol === "/"){
+                
+        }
         let formula = this.input.trim();
         console.log(`Evaluating: ${formula}`);
         this.input = eval(formula);
         this.result = this.input;
+        this.justCalculated = true;
+    }
 
+    isItANumber(character: string){
+        const numberValue: number = Number(character);
+        return numberValue === NaN; 
     }
 }
