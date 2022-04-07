@@ -52,7 +52,6 @@ export class CalculatorComponent implements OnInit {
         //check if we have only one number
         const regex = /[0-9]+[\.]?[0-9]*/gm;
         const found = this.input.match(regex);
-        console.log(`Found is ${found} in ${this.input}`);
         
         if(found?.length === 1){
             // add it again
