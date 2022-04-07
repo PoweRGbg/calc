@@ -18,6 +18,14 @@ export class CalculatorComponent implements OnInit {
     operatorPressed: boolean = false; //Allow only 1 operator in input ( like Windows Calc )
 
     pressNum(num: string) {
+        // Do not allow starting with . (dot) as it messes the logic in calculation
+        const lastSymbol = this.input[this.input.length -1];
+        if(num ==="." && this.isItANumber(lastSymbol)){
+            console.log(`Last symbol was: ${lastSymbol} ${this.isItANumber(lastSymbol)}`);
+            
+            num = "0.";
+        }
+        
         if(this.justCalculated)
             this.input = num;
         else 
@@ -75,6 +83,6 @@ export class CalculatorComponent implements OnInit {
 
     isItANumber(character: string){
         const numberValue: number = Number(character);
-        return numberValue === NaN; 
+        return numberValue !== NaN; 
     }
 }
