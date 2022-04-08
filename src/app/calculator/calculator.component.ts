@@ -22,14 +22,17 @@ export class CalculatorComponent implements OnInit {
         if (num === "." ) {
             // is there another .
             const regex = /[\.]/gm;
+            const operatorRegex = /[\+\-\*\/]+/gm;
             console.log(`input is ${this.input} ${typeof(this.input)}`);
             const found = this.input.match(regex);
-            if(found != undefined && found.length > 0){
+            const operatorsFound = this.input.match(operatorRegex);
+            console.log(`Operators found ${operatorsFound?.length} dots ${found?.length} `);
+            
+            if(found != undefined && found.length > 0 && operatorsFound == undefined ){
                 return;
             }
             
             const lastSymbol = this.input[this.input.length - 1];
-            console.log(`Last symbol is ${lastSymbol} ${Number(lastSymbol) === NaN}`);
             if (lastSymbol === undefined) {
                 num = "0.";
             }
@@ -44,16 +47,12 @@ export class CalculatorComponent implements OnInit {
 
     pressOperator(operator: string) {
         if (this.operatorPressed) {
-
             //calculate the input
             this.calculate();
         }
         //First check if the last symbol of input is not an operator
         const lastSymbol = this.input[this.input.length - 1];
-        if (lastSymbol !== "+"
-            && lastSymbol !== "-"
-            && lastSymbol !== "*"
-            && lastSymbol !== "/") {
+        if (!this.isItOperator(lastSymbol)) {
             this.input += operator;
             this.justCalculated = false;
             this.operatorPressed = true;
@@ -74,17 +73,8 @@ export class CalculatorComponent implements OnInit {
         if (found?.length === 1 && found[0] !== this.input) {
             // add it again
             this.input += found;
-            console.log(`Input is only 1 number = ${found}`);
             
         }
-
-        const lastSymbol = this.input[this.input.length - 1];
-        if (lastSymbol === "+"
-            || lastSymbol === "-"
-            || lastSymbol === "*"
-            || lastSymbol === "/") {
-
-        } 
         
         console.log(`Evaluating: ${this.input}`);
         this.input = eval(this.input);
