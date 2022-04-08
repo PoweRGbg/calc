@@ -71,11 +71,12 @@ export class CalculatorComponent implements OnInit {
         const regex = /[0-9]+[\.]?[0-9]*/gm;
         const found = this.input.match(regex);
 
-        if (found?.length === 1) {
+        if (found?.length === 1 && found[0] !== this.input) {
             // add it again
             this.input += found;
+            console.log(`Input is only 1 number = ${found}`);
+            
         }
-        // TODO : CHECK for operator (in cases like 56+=)
 
         const lastSymbol = this.input[this.input.length - 1];
         if (lastSymbol === "+"
