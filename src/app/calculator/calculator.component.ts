@@ -80,6 +80,7 @@ export class CalculatorComponent implements OnInit {
     }
 
     deleteLastCharacter(){
+        this.input = ""+this.input;
         this.input = this.input.slice(0, -1);
     }
 
