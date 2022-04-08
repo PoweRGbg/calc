@@ -19,70 +19,81 @@ export class CalculatorComponent implements OnInit {
 
     pressNum(num: string) {
         // Do not allow starting with . (dot) as it messes the logic in calculation
-        const lastSymbol = this.input[this.input.length -1];
-        if(num ==="." && this.isItANumber(lastSymbol)){
-            console.log(`Last symbol was: ${lastSymbol} ${this.isItANumber(lastSymbol)}`);
+        if (num === "." ) {
+            // is there another .
+            const regex = /[\.]/gm;
+            console.log(`input is ${this.input} ${typeof(this.input)}`);
+            const found = this.input.match(regex);
+            if(found != undefined && found.length > 0){
+                return;
+            }
             
-            num = "0.";
+            const lastSymbol = this.input[this.input.length - 1];
+            console.log(`Last symbol is ${lastSymbol} ${Number(lastSymbol) === NaN}`);
+            if (lastSymbol === undefined) {
+                num = "0.";
+            }
         }
-        
-        if(this.justCalculated)
+
+        if (this.justCalculated)
             this.input = num;
-        else 
+        else
             this.input += num;
         this.justCalculated = false;
     }
 
     pressOperator(operator: string) {
-        if(this.operatorPressed){
-            
+        if (this.operatorPressed) {
+
             //calculate the input
             this.calculate();
         }
         //First check if the last symbol of input is not an operator
-        const lastSymbol = this.input[this.input.length -1];
-        if( lastSymbol !== "+" 
+        const lastSymbol = this.input[this.input.length - 1];
+        if (lastSymbol !== "+"
             && lastSymbol !== "-"
             && lastSymbol !== "*"
-            && lastSymbol !== "/"){
-                this.input += operator;
-                this.justCalculated = false;
-                this.operatorPressed = true;
-            }
+            && lastSymbol !== "/") {
+            this.input += operator;
+            this.justCalculated = false;
+            this.operatorPressed = true;
+        }
     }
 
     clearInputs() {
         this.input = "";
         this.result = "";
+        this.operatorPressed = false;
     }
 
     calculate() {
         //check if we have only one number
         const regex = /[0-9]+[\.]?[0-9]*/gm;
         const found = this.input.match(regex);
-        
-        if(found?.length === 1){
+
+        if (found?.length === 1) {
             // add it again
             this.input += found;
         }
+        // TODO : CHECK for operator (in cases like 56+=)
 
-        const lastSymbol = this.input[this.input.length -1];
-        if( lastSymbol === "+" 
+        const lastSymbol = this.input[this.input.length - 1];
+        if (lastSymbol === "+"
             || lastSymbol === "-"
             || lastSymbol === "*"
-            || lastSymbol === "/"){
+            || lastSymbol === "/") {
 
-        }
-        let formula = this.input.trim();
-        console.log(`Evaluating: ${formula}`);
-        this.input = eval(formula);
+        } 
+        
+        console.log(`Evaluating: ${this.input}`);
+        this.input = eval(this.input);
         this.result = this.input;
         this.justCalculated = true;
         this.operatorPressed = false;
     }
 
-    isItANumber(character: string){
+    isItANumber(character: string) {
         const numberValue: number = Number(character);
-        return numberValue !== NaN; 
+        return numberValue !== NaN;
     }
 }
