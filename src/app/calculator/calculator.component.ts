@@ -97,6 +97,13 @@ export class CalculatorComponent implements OnInit {
         this.input = this.input.slice(0, -1);
     }
 
+    isItOperator(character: string){
+        return character === "+"
+            || character === "-"
+            || character === "*"
+            || character === "/";
+    }
+
     isItANumber(character: string) {
         const numberValue: number = Number(character);
         return numberValue !== NaN;
