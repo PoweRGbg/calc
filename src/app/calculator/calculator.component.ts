@@ -23,10 +23,8 @@ export class CalculatorComponent implements OnInit {
             // is there another .
             const regex = /[\.]/gm;
             const operatorRegex = /[\+\-\*\/]+/gm;
-            console.log(`input is ${this.input} ${typeof(this.input)}`);
             const found = this.input.match(regex);
             const operatorsFound = this.input.match(operatorRegex);
-            console.log(`Operators found ${operatorsFound?.length} dots ${found?.length} `);
             
             if(found != undefined && found.length > 0 && operatorsFound == undefined ){
                 return;
@@ -76,7 +74,6 @@ export class CalculatorComponent implements OnInit {
             
         }
         
-        console.log(`Evaluating: ${this.input}`);
         this.input = eval(this.input);
         this.result = this.input;
         this.justCalculated = true;
