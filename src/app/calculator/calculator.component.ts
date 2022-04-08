@@ -20,10 +20,9 @@ export class CalculatorComponent implements OnInit {
     pressNum(num: string) {
         // Do not allow starting with . (dot) as it messes the logic in calculation
         if (num === "." ) {
-            // is there another .
             const regex = /[\.]/gm;
             const operatorRegex = /[\+\-\*\/]+/gm;
-            const found = this.input.match(regex);
+            const found = this.input.match(regex);// is there another .
             const operatorsFound = this.input.match(operatorRegex);
             
             if(found != undefined && found.length > 0 && operatorsFound == undefined ){
@@ -45,7 +44,7 @@ export class CalculatorComponent implements OnInit {
 
     pressOperator(operator: string) {
         if (this.operatorPressed) {
-            //calculate the input
+            //calculate the input if there is already another operator
             this.calculate();
         }
         //First check if the last symbol of input is not an operator
