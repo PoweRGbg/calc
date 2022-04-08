@@ -93,6 +93,10 @@ export class CalculatorComponent implements OnInit {
         this.operatorPressed = false;
     }
 
+    deleteLastCharacter(){
+        this.input = this.input.slice(0, -1);
+    }
+
     isItANumber(character: string) {
         const numberValue: number = Number(character);
         return numberValue !== NaN;
